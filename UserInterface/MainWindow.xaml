@@ -3,32 +3,189 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:UserInterface"
         mc:Ignorable="d"
-        Title="Gestión de Provincias" Height="450" Width="800">
+        Title="Gestión de Provincias" Width="960" Height="800" MinWidth="880" MinHeight="720"
+        WindowStartupLocation="CenterScreen" Background="#F3F4F6">
+    <Window.Resources>
+        <!-- Standard Button Style -->
+        <Style TargetType="Button">
+            <Setter Property="Background" Value="#FFFFFF"/>
+            <Setter Property="Foreground" Value="#1F2937"/>
+            <Setter Property="BorderBrush" Value="#D1D5DB"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="FontSize" Value="12"/>
+            <Setter Property="Padding" Value="10,5"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                CornerRadius="4"
+                                Padding="{TemplateBinding Padding}">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" Value="#F3F4F6"/>
+                                <Setter Property="BorderBrush" Value="#9CA3AF"/>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter Property="Background" Value="#E5E7EB"/>
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter Property="Background" Value="#F3F4F6"/>
+                                <Setter Property="Foreground" Value="#9CA3AF"/>
+                                <Setter Property="BorderBrush" Value="#E5E7EB"/>
+                                <Setter Property="Cursor" Value="Arrow"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <!-- Primary Button Style -->
+        <Style x:Key="PrimaryButton" TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">
+            <Setter Property="Background" Value="#2563EB"/>
+            <Setter Property="Foreground" Value="#FFFFFF"/>
+            <Setter Property="BorderBrush" Value="#1D4ED8"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                CornerRadius="4"
+                                Padding="{TemplateBinding Padding}">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" Value="#1D4ED8"/>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter Property="Background" Value="#1E40AF"/>
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter Property="Background" Value="#93C5FD"/>
+                                <Setter Property="Foreground" Value="#EFF6FF"/>
+                                <Setter Property="BorderBrush" Value="#93C5FD"/>
+                                <Setter Property="Cursor" Value="Arrow"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <!-- TextBox Style -->
+        <Style TargetType="TextBox">
+            <Setter Property="FontSize" Value="12"/>
+            <Setter Property="Foreground" Value="#111827"/>
+            <Setter Property="Background" Value="#FFFFFF"/>
+            <Setter Property="BorderBrush" Value="#D1D5DB"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Padding" Value="6,4"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="TextBox">
+                        <Border Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                CornerRadius="4">
+                            <ScrollViewer x:Name="PART_ContentHost" Margin="0" VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsFocused" Value="True">
+                                <Setter Property="BorderBrush" Value="#2563EB"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Window.Resources>
     <Grid>
-        <StackPanel x:Name="botonesStackPanel" Height="40"
-                    Orientation="Horizontal" VerticalAlignment="Top">
-            <Button x:Name="cargarButton" Content="Cargar"
-                    Margin="10,10,10,10" Click="cargarButton_Click"/>
-            <Button x:Name="idButton" Content="Ordenar por ID"
-                    Margin="0,10,10,10" Click="idButton_Click" IsEnabled="False"/>
-            <Button x:Name="nombreButton" Content="Ordenar por Nombre"
-                    Margin="0,10,10,10" Click="nombreButton_Click" IsEnabled="False"/>
-            <Button x:Name="guardarButton" Content="Guardar"
-                    Margin="0,10,10,10" Click="guardarButton_Click" IsEnabled="False"/>
-            <Button x:Name="guardarComoButton" Content="Guardar Como"
-                    Margin="0,10,10,10" Click="guardarComoButton_Click" IsEnabled="False"/>
-            <Button x:Name="exportarButton" Content="Exportar a PDF"
-                    Margin="0,10,10,10" Click="exportarButton_Click" IsEnabled="False"/>
-        </StackPanel>
-        <ScrollViewer Margin="0,40,0,25">
-            <StackPanel x:Name="provinciasStackPanel">
-            </StackPanel>
-        </ScrollViewer>
-        <StatusBar Height="25" VerticalAlignment="Bottom">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/> <!-- Top toolbar -->
+            <RowDefinition Height="Auto"/> <!-- Search & Filter bar -->
+            <RowDefinition Height="*"/>    <!-- 5 Cards container -->
+            <RowDefinition Height="Auto"/> <!-- Pagination bar -->
+            <RowDefinition Height="Auto"/> <!-- StatusBar -->
+        </Grid.RowDefinitions>
+
+        <!-- Top Toolbar -->
+        <Border Grid.Row="0" Background="#FFFFFF" BorderBrush="#E5E7EB" BorderThickness="0,0,0,1" Padding="12,10">
+            <WrapPanel x:Name="botonesStackPanel" VerticalAlignment="Center">
+                <Button x:Name="cargarButton" Content="Cargar JSON" Margin="0,0,8,0" Padding="14,6"
+                        Style="{StaticResource PrimaryButton}" Click="cargarButton_Click"/>
+                <Button x:Name="idButton" Content="Ordenar por ID" Margin="0,0,8,0" Padding="10,6"
+                        Click="idButton_Click" IsEnabled="False"/>
+                <Button x:Name="nombreButton" Content="Ordenar por Nombre" Margin="0,0,8,0" Padding="10,6"
+                        Click="nombreButton_Click" IsEnabled="False"/>
+                <Button x:Name="guardarButton" Content="Guardar" Margin="0,0,8,0" Padding="10,6"
+                        Click="guardarButton_Click" IsEnabled="False"/>
+                <Button x:Name="guardarComoButton" Content="Guardar Como" Margin="0,0,8,0" Padding="10,6"
+                        Click="guardarComoButton_Click" IsEnabled="False"/>
+            </WrapPanel>
+        </Border>
+
+        <!-- Search & Export Scope Bar -->
+        <Border Grid.Row="1" Background="#F9FAFB" BorderBrush="#E5E7EB" BorderThickness="0,0,0,1" Padding="12,8">
+            <DockPanel LastChildFill="True">
+                <!-- Export options on the right -->
+                <StackPanel DockPanel.Dock="Right" Orientation="Horizontal" VerticalAlignment="Center">
+                    <Label Content="Exportar:" VerticalAlignment="Center" FontWeight="SemiBold" Foreground="#4B5563" Margin="0,0,4,0"/>
+                    <ComboBox x:Name="exportScopeComboBox" Width="130" Height="28" Margin="0,0,8,0" VerticalContentAlignment="Center" SelectedIndex="0">
+                        <ComboBoxItem Content="Todas"/>
+                        <ComboBoxItem Content="Resultados"/>
+                    </ComboBox>
+                    <Button x:Name="exportarButton" Content="PDF" Margin="0,0,4,0" Padding="10,4" Click="exportarButton_Click" IsEnabled="False" ToolTip="Exportar a documento PDF"/>
+                    <Button x:Name="exportarCsvButton" Content="CSV" Margin="0,0,4,0" Padding="10,4" Click="exportarCsvButton_Click" IsEnabled="False" ToolTip="Exportar a tabla CSV"/>
+                    <Button x:Name="exportarXmlButton" Content="XML" Margin="0,0,0,0" Padding="10,4" Click="exportarXmlButton_Click" IsEnabled="False" ToolTip="Exportar a XML"/>
+                </StackPanel>
+
+                <!-- Search options on the left -->
+                <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                    <Label Content="Buscar:" VerticalAlignment="Center" FontWeight="SemiBold" Foreground="#4B5563"/>
+                    <TextBox x:Name="searchTextBox" Width="190" Height="28" Margin="4,0,6,0" VerticalContentAlignment="Center"
+                             KeyDown="searchTextBox_KeyDown" ToolTip="Escriba nombre de provincia o ID exacto"/>
+                    <Button x:Name="buscarButton" Content="Buscar" Margin="0,0,6,0" Padding="12,4" Click="buscarButton_Click" IsEnabled="False"/>
+                    <Button x:Name="limpiarButton" Content="Limpiar" Margin="0,0,12,0" Padding="10,4" Click="limpiarButton_Click" IsEnabled="False"/>
+                    <TextBlock x:Name="searchResultsText" VerticalAlignment="Center" Foreground="#4B5563" FontSize="12" Margin="4,0,0,0"/>
+                </StackPanel>
+            </DockPanel>
+        </Border>
+
+        <!-- Main Body: 5 items container without ScrollViewer -->
+        <Grid Grid.Row="2" Margin="12,8">
+            <StackPanel x:Name="provinciasStackPanel" VerticalAlignment="Top"/>
+            <TextBlock x:Name="emptyStateText" Text="Fichero no cargado. Pulse 'Cargar JSON' para abrir un archivo de provincias."
+                       HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="#9CA3AF" FontSize="14" FontStyle="Italic"/>
+        </Grid>
+
+        <!-- Pagination Bar -->
+        <Border Grid.Row="3" Background="#FFFFFF" BorderBrush="#E5E7EB" BorderThickness="0,1,0,0" Padding="12,8">
+            <DockPanel LastChildFill="False">
+                <TextBlock x:Name="rangeIndicatorText" DockPanel.Dock="Left" VerticalAlignment="Center" Foreground="#4B5563" FontSize="12" FontWeight="Medium" Margin="4,0,0,0"/>
+                <StackPanel DockPanel.Dock="Right" Orientation="Horizontal" VerticalAlignment="Center">
+                    <Button x:Name="primeraButton" Content="« Primera" Margin="0,0,4,0" Padding="8,4" Click="primeraButton_Click" IsEnabled="False"/>
+                    <Button x:Name="anteriorButton" Content="‹ Anterior" Margin="0,0,8,0" Padding="8,4" Click="anteriorButton_Click" IsEnabled="False"/>
+                    <TextBlock x:Name="pageIndicatorText" Text="Página 0 de 0" VerticalAlignment="Center" Foreground="#374151" FontWeight="SemiBold" FontSize="12" Margin="0,0,8,0"/>
+                    <Button x:Name="siguienteButton" Content="Siguiente ›" Margin="0,0,4,0" Padding="8,4" Click="siguienteButton_Click" IsEnabled="False"/>
+                    <Button x:Name="ultimaButton" Content="Última »" Margin="0,0,0,0" Padding="8,4" Click="ultimaButton_Click" IsEnabled="False"/>
+                </StackPanel>
+            </DockPanel>
+        </Border>
+
+        <!-- StatusBar -->
+        <StatusBar Grid.Row="4" Height="26" Background="#E5E7EB" BorderBrush="#D1D5DB" BorderThickness="0,1,0,0">
             <StatusBarItem>
-                <TextBlock Name="statusText" Text="Fichero no cargado"/>
+                <TextBlock Name="statusText" Text="Fichero no cargado" Foreground="#374151" FontSize="11"/>
             </StatusBarItem>
         </StatusBar>
     </Grid>

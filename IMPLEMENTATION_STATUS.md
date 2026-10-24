@@ -1,19 +1,22 @@
 # Состояние реализации
-- Завершённый этап: Этап 1 — модель и JSON
+- Завершённый этап: Этап 2 — ProvinciaUserControl
 - Изменённые файлы:
-  - `DataAccess/DataAccess.csproj` (создан проект библиотеки классов .NET 8)
-  - `DataAccess/Provincia.cs` (создана модель с маппингом полей `id` -> `ID`, `nm` -> `Nombre`)
-  - `DataAccess/ProvinciasJSON.cs` (создан сервис чтения/записи JSON с десериализацией и сериализацией)
-  - `TallerJSON.slnx` (добавлен проект `DataAccess`)
+  - `UserInterface/UserInterface.csproj` (настроен как .NET 8 WPF с ссылкой на DataAccess)
+  - `UserInterface/App.xaml` и `UserInterface/App.xaml.cs` (стандартный запуск WPF)
+  - `UserInterface/MainWindow.xaml` и `UserInterface/MainWindow.xaml.cs` (базовая заготовка окна WPF)
+  - `UserInterface/ProvinciaUserControl.xaml` (создана XAML-разметка контрола с полями idTextBox и nombreTextBox)
+  - `UserInterface/ProvinciaUserControl.xaml.cs` (создана логика контрола: свойство Provincia, обработка LostFocus для ID и Nombre с перехватом FormatException)
+  - `TallerJSON.slnx` (обновлена конфигурация решения)
 - Команда сборки и её результат:
-  - `dotnet build DataAccess/DataAccess.csproj` — сборка успешна (0 ошибок, 0 предупреждений).
+  - `dotnet build UserInterface/UserInterface.csproj` — сборка успешна (0 ошибок, 0 предупреждений).
 - Выполненные проверки:
-  - Проверено чтение оригинального `provincias.json`: успешно загружены все 52 провинции с корректным распознаванием `ID` и `Nombre`.
-  - Проверено сохранение во временный файл и обратная вычитка (round-trip): данные идентичны.
-  - Проверена обработка синтаксически некорректного JSON: `getProvincias()` возвращает `null`.
-  - Проверена обработка пустого массива `[]`: `getProvincias()` возвращает пустой список (`Count == 0`).
+  - Отображение начальных значений модели (`ID` и `Nombre`) в текстовых полях `idTextBox` и `nombreTextBox`.
+  - Проверка геттера свойства `Provincia` (возвращает ссылку на тот же объект модели).
+  - Корректное обновление числового `ID` в модели при потере фокуса (`LostFocus`).
+  - Обработка некорректного ввода (буквы/нечисловые символы в поле ID): перехват `FormatException`, сброс `provincia.ID` в 0 и установка `idTextBox.Text = "0"`.
+  - Корректное обновление строки `Nombre` в объекте модели при потере фокуса (`LostFocus`).
 - Не выполнено и почему:
-  - Всё запланированное для Этапа 1 выполнено полностью.
+  - Логика загрузки, сохранения и экспорта в главном окне запланирована на последующие этапы (Этапы 3, 4, 5).
 - Отклонения от слайдов и причина:
-  - В `Provincia.cs` добавлены атрибуты `[JsonProperty("id")]` и `[JsonProperty("nm")]` для обеспечения совместимости с предоставленным файлом данных `provincias.json`.
-- Следующий этап: Этап 2 — ProvinciaUserControl
+  - Добавлены проверки на null в сеттере и обработчиках событий для безопасной работы с включённым режимом `<Nullable>enable</Nullable>`.
+- Следующий этап: Этап 3 — главное окно, загрузка и сортировка

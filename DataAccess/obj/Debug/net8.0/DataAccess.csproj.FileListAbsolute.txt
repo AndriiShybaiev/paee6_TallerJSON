@@ -10,3 +10,4 @@ C:\Users\User\Nextcloud2\Code\PAEE\Taller6\TallerJSON\DataAccess\obj\Debug\net8.
 C:\Users\User\Nextcloud2\Code\PAEE\Taller6\TallerJSON\DataAccess\obj\Debug\net8.0\refint\DataAccess.dll
 C:\Users\User\Nextcloud2\Code\PAEE\Taller6\TallerJSON\DataAccess\obj\Debug\net8.0\DataAccess.pdb
 C:\Users\User\Nextcloud2\Code\PAEE\Taller6\TallerJSON\DataAccess\obj\Debug\net8.0\ref\DataAccess.dll
+C:\Users\User\Nextcloud2\Code\PAEE\Taller6\TallerJSON\DataAccess\obj\Debug\net8.0\DataAccess.sourcelink.json
